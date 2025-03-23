@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-import yfinance as yf # type: ignore
-import ta # type: ignore
-import matplotlib.pyplot as plt # type: ignore
+import yfinance as yf
+import ta 
+import matplotlib.pyplot as plt 
 
 # Streamlit Page Config
 st.set_page_config(page_title="NQ Trading Dashboard", layout="wide")
@@ -13,7 +13,7 @@ st.title("📈 Nasdaq-100 (NQ) Trading Dashboard")
 # Fetch NQ data
 @st.cache_data
 def get_nq_data():
-    nq = yf.download('NQ=F', period='1mo', interval='1h')  # Last month, 1-hour intervals
+    nq = yf.download('NQ=F', period='1d', interval='1m')  # Last day, 1-minute intervals
     nq['SMA_50'] = ta.trend.sma_indicator(nq['Close'], window=50)
     nq['SMA_200'] = ta.trend.sma_indicator(nq['Close'], window=200)
     nq['RSI'] = ta.momentum.rsi(nq['Close'], window=14)
@@ -56,7 +56,4 @@ st.pyplot(fig)
 # Show Data
 st.subheader("📝 Data Table")
 st.dataframe(nq_data[['Close', 'SMA_50', 'SMA_200', 'RSI', 'Signal']].tail(10))
-
-import streamlit as st
-import matplotlib.pyplot as plt # type: ignore
 
